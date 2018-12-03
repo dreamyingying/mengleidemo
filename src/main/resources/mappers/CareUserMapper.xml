@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.menglei.family.account.dao.ICareUserDAO">
+<!--
+insert 单条插入
+
+update 按ID更新一条
+updateNull 按ID更新一条
+updateMap  按ID更新一条
+updateByCondition 按条件更新一批
+
+deleteById 按ID删除
+deleteByIdList 按id列表删除
+deleteByCondition 按组合条件删除
+deleteByProperty 按单一条件删除
+
+findById 按ID查找
+findByProperty 按单一条件查找一条记录
+findListByProperty 按单一条件查询所有记录
+findAll 无条件查询全部记录
+
+queryPage 按组合条件分页查询
+queryCount 按组合条件查询总数
+queryLike 按组合条件模糊查询
+queryList 按组合条件查询
+queryOne 按组合条件查询一条
+selectMaxId 返回表内最大id
+-->
+
+<sql id="Base_Column_List">
+    `id` as `id` ,
+    `open_id` as `openId` ,
+    `description` as `description` ,
+    `status` as `status` ,
+    `creater` as `creater` ,
+    `create_time` as `createTime` ,
+    `update_time` as `updateTime` ,
+    `updater` as `updater`
+</sql>
+
+
+<!-- 新增 -->
+<insert id="insert" parameterType="CareUser"   useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO care_user(
+            open_id ,
+            description ,
+            status ,
+            creater ,
+            create_time ,
+            update_time ,
+            updater
+        ) VALUES (
+        #{openId},
+        #{description},
+        #{status},
+        #{creater},
+        #{createTime},
+        #{updateTime},
+        #{updater}
+        )
+</insert>
+
+
+<!-- 更新 -->
+<update id="update" parameterType="CareUser">
+    UPDATE care_user
+    <trim prefix="SET" suffixOverrides=",">
+        <if test="openId!=null">
+            open_id = #{openId},
+        </if>
+        <if test="creater!=null">
+            creater = #{creater},
+        </if>
+        <if test="createTime!=null">
+            create_time = #{createTime},
+        </if>
+        <if test="updater!=null">
+            updater = #{updater},
+        </if>
+        <if test="updateTime!=null">
+            update_time = #{updateTime},
+        </if>
+        <if test="status!=null">
+            status = #{status},
+        </if>
+        <if test="description!=null">
+            description = #{description},
+        </if>
+
+    </trim>
+    WHERE
+    id = #{id}
+</update>
+
+
+
+<!--单条件查询一条数据-->
+<select id="findByProperty" resultType="CareUser">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM care_user WHERE
+    ${property} = #{value}
+    LIMIT 0,1
+</select>
+
+</mapper>
